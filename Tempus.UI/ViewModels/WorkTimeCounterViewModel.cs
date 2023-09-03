@@ -4,9 +4,10 @@ using System;
 
 namespace Tempus.UI.ViewModels;
 
-[INotifyPropertyChanged]
-public partial class WorkTimeCounterViewModel
+public partial class WorkTimeCounterViewModel : ObservableObject
 {
+
+
     #region MVVM Properties
 
     #region Input

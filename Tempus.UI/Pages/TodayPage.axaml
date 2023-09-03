@@ -1,0 +1,152 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+			 xmlns:mati="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             x:Class="Tempus.UI.Pages.TodayPage"
+			 xmlns:local="clr-namespace:Tempus.UI"
+			 DataContext="{local:DISource Type=vms:TodayPageViewModel}"
+			 xmlns:vms="clr-namespace:Tempus.UI.ViewModels">
+
+
+	<DockPanel>
+		<TextBlock Classes="h2" Foreground="{DynamicResource SukiText}"
+				   DockPanel.Dock="Top"
+				   Margin="30,10,0,5">Сегодня</TextBlock>
+		<Grid DockPanel.Dock="Top">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+
+			<Border Classes="Card">
+				<DockPanel>
+					<StackPanel DockPanel.Dock="Top">
+						<Button
+							HorizontalAlignment="Right"
+							Background="{DynamicResource SukiPrimaryColor}"
+							BorderBrush="Transparent"
+							Margin="0,0,0,10"
+							Width="200"
+							Command="{Binding AddWorkPeriodCommand}">
+							<StackPanel Orientation="Horizontal">
+								<mati:MaterialIcon Kind="Add" Foreground="White" />
+								<TextBlock Foreground="{DynamicResource SukiText}">Начать новый период</TextBlock>
+							</StackPanel>
+						</Button>
+					</StackPanel>
+					<DataGrid ItemsSource="{Binding WorkPeriods}"
+							  IsReadOnly="false"
+							  DockPanel.Dock="Top"
+							  Name="TimeDataGrid">
+						<DataGrid.Columns>
+
+							<!-- Время -->
+							<DataGridTemplateColumn Header="Начало" Width="200">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding StartTime, StringFormat=\{0:hh\\:mm\}}" />
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+								<DataGridTemplateColumn.CellEditingTemplate>
+									<DataTemplate>
+										<TimePicker ClockIdentifier="24HourClock"
+													SelectedTime="{Binding StartTime}" />
+									</DataTemplate>
+								</DataGridTemplateColumn.CellEditingTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTemplateColumn Header="Окончание" Width="200">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding EndTime, StringFormat=\{0:hh\\:mm\}}" />
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+								<DataGridTemplateColumn.CellEditingTemplate>
+									<DataTemplate>
+										<TimePicker ClockIdentifier="24HourClock"
+													SelectedTime="{Binding EndTime}" />
+									</DataTemplate>
+								</DataGridTemplateColumn.CellEditingTemplate>
+							</DataGridTemplateColumn>
+
+							<!-- Всего (авторасчитываемое значение)-->
+							<DataGridTextColumn Header="Всего" Binding="{Binding Total, StringFormat=\{0:hh\\:mm\}}" />
+
+							<!-- Комментарий -->
+							<DataGridTemplateColumn Header="Комментарий"
+													MinWidth="180"
+												Width="*">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Note}"
+												   MaxLines="3"
+												   Width="250"
+												   Height="100"
+												   />
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+								<DataGridTemplateColumn.CellEditingTemplate>
+									<DataTemplate>
+										<TextBox AcceptsReturn="true"
+												 MaxLines="3"
+												 Width="250"
+												 Text="{Binding Note}"
+												 Height="100"
+												 ></TextBox>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellEditingTemplate>
+							</DataGridTemplateColumn>
+
+							<!-- Действия -->
+							<DataGridTemplateColumn Header="Действия">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+
+											<Button Background="{DynamicResource SukiPrimaryColor}" BorderBrush="Transparent"
+													Command="{Binding #TimeDataGrid.DataContext.SetStartForWorkPeriodCommand}"
+													CommandParameter="{Binding Id}">
+												<mati:MaterialIcon Kind="Play" Foreground="{DynamicResource SukiText}"></mati:MaterialIcon>
+											</Button>
+											<Button Background="{DynamicResource SukiPrimaryColor}" BorderBrush="Transparent"
+													Command="{Binding #TimeDataGrid.DataContext.SetEndForWorkPeriodCommand}"
+													CommandParameter="{Binding Id}">
+												<mati:MaterialIcon Kind="Stop" Foreground="{DynamicResource SukiText}"></mati:MaterialIcon>
+											</Button>
+											<Button Background="Transparent" BorderBrush="Transparent" Margin="15,0,0,0"
+													Command="{Binding #TimeDataGrid.DataContext.DeleteWorkPeriodCommand}"
+													CommandParameter="{Binding Id}">
+												<mati:MaterialIcon Kind="Delete" Foreground="Red" ></mati:MaterialIcon>
+											</Button>
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+				</DockPanel>
+			</Border>
+			<Border Classes="Card" Grid.Column="1">
+				<StackPanel>
+					<TextBlock Text="Статистика дня"  Classes="h2"/>
+					<WrapPanel>
+						<TextBlock>Всего за день:</TextBlock>
+						<TextBlock Margin="5,0,0,0" Text="{Binding TotalWorkTimeTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
+					</WrapPanel>
+					<WrapPanel>
+						<TextBlock>Цель:</TextBlock>
+						<TimePicker ClockIdentifier="24HourClock"
+							SelectedTime="{Binding TargetTime}" />
+					</WrapPanel>
+					<WrapPanel>
+						<TextBlock>До цели:</TextBlock>
+						<TextBlock Margin="5,0,0,0" Text="{Binding WorkhoursLeft, StringFormat=\{0:hh\\:mm\}}" />
+					</WrapPanel>
+				</StackPanel>
+			</Border>
+		</Grid>
+	</DockPanel>
+</UserControl>

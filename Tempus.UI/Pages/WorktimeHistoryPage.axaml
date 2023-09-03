@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vms="clr-namespace:Tempus.UI.ViewModels"
+			 DataContext="{local:DISource Type=vms:WorktimeHistoryViewModel}"
+			 xmlns:local="clr-namespace:Tempus.UI"
+             x:Class="Tempus.UI.Pages.WorktimeHistoryPage">
+
+
+	<Border Classes="Card">
+		<StackPanel>
+			<TextBlock Classes="h2">История рабочих дней</TextBlock>
+
+			<StackPanel>
+				<TextBlock>Выбранная дата</TextBlock>
+				<CalendarDatePicker SelectedDate="{Binding SelectedDate}" />
+				<Button Background="{DynamicResource SukiPrimaryColor}" 
+						Foreground="{DynamicResource SukiText}" 
+						Command="{Binding RefreshCommand}">Показать</Button>
+			</StackPanel>
+			<DataGrid IsReadOnly="True" ItemsSource="{Binding WorktimeData}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Начало" Binding="{Binding StartTime, StringFormat=\{0:hh\\:mm\}}" />
+					<DataGridTextColumn Header="Конец" Binding="{Binding EndTime, StringFormat=\{0:hh\\:mm\}}" />
+					<DataGridTextColumn Header="Длительность" Binding="{Binding Total, StringFormat=\{0:hh\\:mm\}}" />
+					<!--<DataGridTextColumn Header="Проект" Binding="{Binding ProjectName}" />
+					<DataGridTextColumn Header="Задача" Binding="{Binding TaskName}" />-->
+					<DataGridTextColumn Header="Комментарий" Binding="{Binding Note}" />
+				</DataGrid.Columns>
+			</DataGrid>
+
+		</StackPanel>
+	</Border>
+</UserControl>

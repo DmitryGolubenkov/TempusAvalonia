@@ -2,39 +2,50 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+		Classes="NakedWindow Blurred"
 		xmlns:pages="clr-namespace:Tempus.UI.Pages"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Tempus.UI.MainWindow"
         Title="Tempus">
-	<SplitView IsPaneOpen="True"
-           DisplayMode="Inline"
-			   OpenPaneLength="256">
-		<SplitView.Pane>
-			<StackPanel>
-				<StackPanel.Styles>
-					<Style Selector="Button">
-						<Setter Property="Width" Value="256"></Setter>
-						<Setter Property="Height" Value="50"></Setter>
-						<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-						<Setter Property="CornerRadius" Value="5"></Setter>
-					</Style>
-					<Style Selector="Image">
-						<Setter Property="Height" Value="20"></Setter>
-						<Setter Property="Margin" Value="0,0,10,0"></Setter>
-					</Style>
-				</StackPanel.Styles>
-				<Button>
-					<DockPanel>
-						<Image Source="/Assets/Images/clock.png" Height="20" />
-						<TextBlock>Калькулятор времени</TextBlock>
-					</DockPanel>
-				</Button>
-				<Button>Задачи</Button>
-				<Button>Инструменты</Button>
-				<Button>Настройки</Button>
-			</StackPanel>
-		</SplitView.Pane>
+	<suki:DesktopPage Title="Tempus" ShowBottomBorder="False">
+		<suki:SideMenu WinUIStyle="True">
+			<suki:SideMenu.DataContext>
+				<suki:SideMenuModel>
+					<suki:SideMenuModel.MenuItems>
 
-		<pages:WorkTimeCounter />
-	</SplitView>
+						<suki:SideMenuItem Header="Сегодня" Icon="ClockOutline">
+							<suki:SideMenuItem.Content>
+								<pages:TodayPage />
+							</suki:SideMenuItem.Content>
+						</suki:SideMenuItem>
+						<!--<suki:SideMenuItem Header="Cегодня" Icon="Clock">
+							<suki:SideMenuItem.Content>
+								<pages:WorkTimeCounter />
+							</suki:SideMenuItem.Content>
+						</suki:SideMenuItem>-->
+						
+						
+						<suki:SideMenuItem Header="История" Icon="Note">
+							<suki:SideMenuItem.Content>
+								<pages:WorktimeHistoryPage />
+							</suki:SideMenuItem.Content>
+						</suki:SideMenuItem>
+
+							
+
+					</suki:SideMenuModel.MenuItems>
+					<!--
+					<suki:SideMenuModel.FooterMenuItems>
+						<suki:SideMenuItem Header="Настройки" Icon="Settings">
+							<suki:SideMenuItem.Content>
+								
+							</suki:SideMenuItem.Content>
+						</suki:SideMenuItem>
+					</suki:SideMenuModel.FooterMenuItems>
+					-->
+				</suki:SideMenuModel>
+			</suki:SideMenu.DataContext>
+		</suki:SideMenu>
+	</suki:DesktopPage>
 </Window>

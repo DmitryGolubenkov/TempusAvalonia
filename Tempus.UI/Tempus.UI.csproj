@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
 	  <RuntimeIdentifiers>win10-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
@@ -9,13 +9,32 @@
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.11" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
+    <PackageReference Include="Autofac" Version="7.1.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Avalonia" Version="11.0.4" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.4" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.4" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.11" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.4" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Riok.Mapperly" Version="3.1.0" />
+    <PackageReference Include="SukiUI" Version="5.0.4" />
    </ItemGroup>
   <ItemGroup>
-	  <AvaloniaResource  Include="Assets\**" />
+	  <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="C:\Users\xxdim\.nuget\packages\sukiui\3.0.0\contentFiles\any\netstandard2.0\suki_photo.ico" />
+    <Content Remove="C:\Users\xxdim\.nuget\packages\sukiui\5.0.4\contentFiles\any\netstandard2.0\suki_photo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tempus.Application\Tempus.AppLayer.csproj" />
+    <ProjectReference Include="..\Tempus.Persistence\Tempus.Persistence.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Pages\WorktimeHistoryPage.axaml.cs">
+      <DependentUpon>WorktimeHistoryPage.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

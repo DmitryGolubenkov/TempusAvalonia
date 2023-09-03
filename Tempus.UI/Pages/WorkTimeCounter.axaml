@@ -2,96 +2,96 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850"
+       		 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850"
              x:Class="Tempus.UI.Pages.WorkTimeCounter"
-	  xmlns:vms="clr-namespace:Tempus.UI.ViewModels">
+			 xmlns:vms="clr-namespace:Tempus.UI.ViewModels">
 	<Panel.DataContext>
 		<vms:WorkTimeCounterViewModel />
 	</Panel.DataContext>
 
 	<StackPanel Margin="20">
-		<Label FontSize="24">Калькулятор времени</Label>
-		<StackPanel>
-			<StackPanel.Styles>
-				<Style Selector="Label">
-					<Setter Property="Width" Value="190" />
-					<Setter Property="Margin" Value="0,5" />
-					<Setter Property="HorizontalAlignment" Value="Left" />
-				</Style>
-				<Style Selector="Button">
-					<Setter Property="Margin" Value="5" />
-				</Style>
-			</StackPanel.Styles>
+		<Border Classes="Card">
+			<StackPanel>
+				<TextBlock Classes="h2">Калькулятор времени</TextBlock>
+				<StackPanel.Styles>
+					<Style Selector="Button">
+						<Setter Property="Foreground" Value="White" /> 
+						<Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
+					</Style>
+				</StackPanel.Styles>
+				
+				<TextBlock>Время прихода</TextBlock>
+				<WrapPanel>
+					<TimePicker ClockIdentifier="24HourClock" SelectedTime="{Binding ArrivalTime}" />
+					<Button Classes="Primary" Command="{Binding SetArrivalTimeNowCommand}">Сейчас</Button>
+				</WrapPanel>
 
+				<TextBlock>Время ухода на обед</TextBlock>
+				<WrapPanel>
+					<TimePicker ClockIdentifier="24HourClock" SelectedTime="{Binding DinnerStartTime}" />
+					<Button Classes="Primary" Command="{Binding SetDinnerStartTimeNowCommand}">Сейчас</Button>
+				</WrapPanel>
 
+				<TextBlock>Время прихода с обеда</TextBlock>
+				<WrapPanel>
+					<TimePicker ClockIdentifier="24HourClock" SelectedTime="{Binding DinnerEndTime}" />
+					<Button Classes="Primary" Command="{Binding SetDinnerEndTimeNowCommand}">Сейчас</Button>
+				</WrapPanel>
 
-			<Label>Время прихода</Label>
-			<WrapPanel>
-				<TimePicker ClockIdentifier="24HourClock" SelectedTime="{Binding ArrivalTime}" />
-				<Button Command="{Binding SetArrivalTimeNowCommand}">Сейчас</Button>
-			</WrapPanel>
-
-			<Label>Время ухода на обед</Label>
-			<WrapPanel>
-				<TimePicker ClockIdentifier="24HourClock" SelectedTime="{Binding DinnerStartTime}" />
-				<Button Command="{Binding SetDinnerStartTimeNowCommand}">Сейчас</Button>
-			</WrapPanel>
-
-			<Label>Время прихода с обеда</Label>
-			<WrapPanel>
-				<TimePicker ClockIdentifier="24HourClock" SelectedTime="{Binding DinnerEndTime}" />
-				<Button Command="{Binding SetDinnerEndTimeNowCommand}">Сейчас</Button>
-			</WrapPanel>
-
-			<Label>Время ухода</Label>
-			<WrapPanel>
-				<TimePicker ClockIdentifier="24HourClock" SelectedTime="{Binding DepartureTime}" />
-				<Button Command="{Binding SetDepartureTimeNowCommand}">Сейчас</Button>
-				<Button
-					Command="{Binding CalculateDepartureTimeCommand}"
+				<TextBlock>Время ухода</TextBlock>
+				<WrapPanel>
+					<TimePicker ClockIdentifier="24HourClock" SelectedTime="{Binding DepartureTime}" />
+					<Button Background="{DynamicResource SukiPrimaryColor}" Foreground="White" Command="{Binding SetDepartureTimeNowCommand}">Сейчас</Button>
+					<Button
+						Command="{Binding CalculateDepartureTimeCommand}"
                         >Рассчитать ожидаемый конец дня</Button>
-			</WrapPanel>
+				</WrapPanel>
 
-			<WrapPanel>
-				<Button
-					Command="{Binding ResetCommand}">Сбросить</Button>
-			</WrapPanel>
-		</StackPanel>
-
+				<WrapPanel>
+					<Button Classes="Accent" Foreground="Red"
+						Command="{Binding ResetCommand}">Сбросить</Button>
+				</WrapPanel>
+			</StackPanel>
+		</Border>
 		<!--  Statistics  -->
-		<StackPanel>
-			<StackPanel.Styles>
-				<Style Selector="WrapPanel">
-					<Setter Property="Margin" Value="0,8" />
-					<Setter Property="VerticalAlignment" Value="Center" />
-				</Style>
-				<Style Selector="Label">
-					<Setter Property="FontSize" Value="16" />
-					<Setter Property="VerticalAlignment" Value="Center" />
-				</Style>
-				<Style Selector="TextBlock">
-					<Setter Property="FontSize" Value="16" />
-					<Setter Property="VerticalAlignment" Value="Center" />
-				</Style>
-			</StackPanel.Styles>
-			<TextBlock FontSize="24" Text="Статистика дня" />
+		<Border Classes="Card">
+			<StackPanel>
+				<StackPanel.Styles>
+					<Style Selector="WrapPanel">
+						<Setter Property="Margin" Value="0,8" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+					</Style>
+					<Style Selector="Label">
+						<Setter Property="FontSize" Value="16" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+					</Style>
+					<Style Selector="TextBlock">
+						<Setter Property="FontSize" Value="16" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+					</Style>
+				</StackPanel.Styles>
+				<TextBlock Text="Статистика дня"  Classes="h2"/>
 
-			<WrapPanel>
-				<Label>Первая половина дня:</Label>
-				<TextBlock Text="{Binding FirstHalfOfDayTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
-			</WrapPanel>
-			<WrapPanel>
-				<Label>Время на обед:</Label>
-				<TextBlock Text="{Binding DinnerTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
-			</WrapPanel>
-			<WrapPanel>
-				<Label>Вторая половина дня:</Label>
-				<TextBlock Text="{Binding SecondHalfOfDayTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
-			</WrapPanel>
-			<WrapPanel>
-				<Label>Всего:</Label>
-				<TextBlock Text="{Binding TotalWorkTimeTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
-			</WrapPanel>
-		</StackPanel>
+				<WrapPanel>
+					<TextBlock>Первая половина дня:</TextBlock>
+					<TextBlock Text="{Binding FirstHalfOfDayTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock>Время на обед:</TextBlock>
+					<TextBlock Text="{Binding DinnerTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock>Вторая половина дня:</TextBlock>
+					<TextBlock Text="{Binding SecondHalfOfDayTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock>Всего:</TextBlock>
+					<TextBlock Text="{Binding TotalWorkTimeTimeSpan, StringFormat=\{0:hh\\:mm\}}" />
+				</WrapPanel>
+
+
+			</StackPanel>
+		</Border>
 	</StackPanel>
 </Panel>
