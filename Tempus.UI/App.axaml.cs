@@ -5,6 +5,7 @@ using Tempus.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Tempus.Core.Interfaces;
 using Autofac;
+using System;
 
 namespace Tempus.UI;
 
@@ -67,8 +68,10 @@ public class App : Application
             .InstancePerLifetimeScope();
 
 
+        // Path to db should be in app folder
+        var path = $"{AppDomain.CurrentDomain.BaseDirectory}/app.db";
         var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlite("Data Source=c:\\app.db;")
+                .UseSqlite($"Data Source={path};")
                 .Options;
 
         builder

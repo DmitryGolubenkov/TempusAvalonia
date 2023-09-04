@@ -23,13 +23,31 @@ public partial class TodayPageViewModel : ObservableObject
         _saveTodayWorkTimesCommand = saveTodayWorkTimesCommand;
 
         var data = _getWorkTimesForDateQuery.Execute(DateTime.Now).Result.Select(x=> new ObservableWorkPeriod(x));
-        workPeriods = new ObservableCollection<ObservableWorkPeriod>(data.ToList());
+        WorkPeriods = new ObservableCollection<ObservableWorkPeriod>(data.ToList());
 
-        workPeriods.CollectionChanged += (s, e) => OnPropertyChanged(nameof(TotalWorkTimeTimeSpan));
-        workPeriods.ToList().ForEach(x => x.PropertyChanged += async (s, e) => await DataChanged());
+        WorkPeriods.CollectionChanged += (s, e) => OnPropertyChanged(nameof(TotalWorkTimeTimeSpan));
+        WorkPeriods.ToList().ForEach(x => x.PropertyChanged += async (s, e) => await DataChanged());
     }
 
     #endregion
+
+
+    [RelayCommand]
+    private void Refresh()
+    {
+        // if workperiods exist we need to clear event subscriptions before clearing collection
+        if(WorkPeriods.Count > 0)
+        {
+            WorkPeriods.ToList().ForEach(x => x.PropertyChanged -= async (s, e) => await DataChanged());
+            WorkPeriods.CollectionChanged -= (s, e) => OnPropertyChanged(nameof(TotalWorkTimeTimeSpan));
+        }
+
+        var data = _getWorkTimesForDateQuery.Execute(DateTime.Now).Result.Select(x => new ObservableWorkPeriod(x));
+        WorkPeriods = new ObservableCollection<ObservableWorkPeriod>(data.ToList());
+        WorkPeriods.CollectionChanged += (s, e) => OnPropertyChanged(nameof(TotalWorkTimeTimeSpan));
+        WorkPeriods.ToList().ForEach(x => x.PropertyChanged += async (s, e) => await DataChanged());
+
+    }
 
     [ObservableProperty]
     private ObservableCollection<ObservableWorkPeriod> workPeriods;
@@ -45,13 +63,12 @@ public partial class TodayPageViewModel : ObservableObject
     /// <summary>
     /// Всего отработано за день
     /// </summary>
-    private string TotalWorkTimeTimeSpan => new TimeSpan(
+    private TimeSpan TotalWorkTimeTimeSpan => new TimeSpan(
         WorkPeriods.Where(x=>x.Total is not null).
-        Sum(x => ((TimeSpan)x.Total!).Ticks))
-        .ToString();
+        Sum(x => ((TimeSpan)x.Total!).Ticks));
 
-    private string WorkhoursLeft => (targetTime - new TimeSpan(WorkPeriods.Where(x => x.Total is not null)
-        .Sum(x => ((TimeSpan)x.Total!).Ticks))).ToString();
+    private TimeSpan WorkhoursLeft => (targetTime - new TimeSpan(WorkPeriods.Where(x => x.Total is not null)
+        .Sum(x => ((TimeSpan)x.Total!).Ticks)));
 
 
 
