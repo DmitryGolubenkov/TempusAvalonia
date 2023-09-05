@@ -89,6 +89,9 @@
 							<!-- Всего (авторасчитываемое значение)-->
 							<DataGridTextColumn Header="Всего" Binding="{Binding Total, StringFormat=\{0:hh\\:mm\}}" />
 
+							<!-- Всего (ч) (авторасчитываемое значение)-->
+							<DataGridTextColumn Header="Всего (ч)" Binding="{Binding AsHours}" />
+
 							<!-- Комментарий -->
 							<DataGridTemplateColumn Header="Комментарий"
 													MinWidth="180"
@@ -96,19 +99,19 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding Note}"
-												   MaxLines="3"
-												   Width="250"
 												   Height="100"
+												   TextWrapping="Wrap"
+												   HorizontalAlignment="Stretch"
 												   />
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 								<DataGridTemplateColumn.CellEditingTemplate>
 									<DataTemplate>
 										<TextBox AcceptsReturn="true"
-												 MaxLines="3"
-												 Width="250"
 												 Text="{Binding Note}"
+												 TextWrapping="Wrap"
 												 Height="100"
+												 HorizontalAlignment="Stretch"
 												 ></TextBox>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellEditingTemplate>

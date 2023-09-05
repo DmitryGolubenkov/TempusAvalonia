@@ -47,5 +47,7 @@ public partial class ObservableWorkPeriod : ObservableObject
 
     public TimeSpan? Total => _workPeriod.Total;
 
+    public string? AsHours => _workPeriod.AsHours;
+
     public Guid Id { get => _workPeriod.Id;}
 }

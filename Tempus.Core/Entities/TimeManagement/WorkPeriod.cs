@@ -29,4 +29,9 @@ public class WorkPeriod : EntityBase
     /// Время работы в периоде
     /// </summary>
     public TimeSpan? Total => StartTime < EndTime ? EndTime - StartTime : StartTime - EndTime;
+
+    /// <summary>
+    /// Время в часах, где 1 = 1 час, 0.5 = 30 минут
+    /// </summary>
+    public string? AsHours => Total?.TotalHours.ToString("0.##");
 }

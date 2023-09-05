@@ -16,8 +16,8 @@
 			<StackPanel>
 				<TextBlock>Выбранная дата</TextBlock>
 				<CalendarDatePicker SelectedDate="{Binding SelectedDate}" />
-				<Button Background="{DynamicResource SukiPrimaryColor}" 
-						Foreground="{DynamicResource SukiText}" 
+				<Button Background="{DynamicResource SukiPrimaryColor}"
+						Foreground="{DynamicResource SukiText}"
 						Command="{Binding RefreshCommand}">Показать</Button>
 			</StackPanel>
 			<DataGrid IsReadOnly="True" ItemsSource="{Binding WorktimeData}">
@@ -25,9 +25,21 @@
 					<DataGridTextColumn Header="Начало" Binding="{Binding StartTime, StringFormat=\{0:hh\\:mm\}}" />
 					<DataGridTextColumn Header="Конец" Binding="{Binding EndTime, StringFormat=\{0:hh\\:mm\}}" />
 					<DataGridTextColumn Header="Длительность" Binding="{Binding Total, StringFormat=\{0:hh\\:mm\}}" />
+					<!-- Всего (ч) (авторасчитываемое значение)-->
+					<DataGridTextColumn Header="Всего (ч)" Binding="{Binding AsHours}" />
 					<!--<DataGridTextColumn Header="Проект" Binding="{Binding ProjectName}" />
 					<DataGridTextColumn Header="Задача" Binding="{Binding TaskName}" />-->
-					<DataGridTextColumn Header="Комментарий" Binding="{Binding Note}" />
+					<DataGridTemplateColumn Header="Комментарий">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Note}"
+										   Height="100"
+										   TextWrapping="Wrap"
+										   HorizontalAlignment="Stretch"
+												   />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
 
