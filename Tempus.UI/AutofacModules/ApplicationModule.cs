@@ -18,6 +18,8 @@ public class ApplicationModule : Module
         builder.RegisterAssemblyTypes(typeof(GetWorkTimesForDateQuery).Assembly)
             .Where(t => t.Name.EndsWith("Command"))
             .AsSelf();
-
+        builder.RegisterAssemblyTypes(typeof(GetWorkTimesForDateQuery).Assembly)
+            .Where(t => t.Name.EndsWith("Service"))
+            .AsSelf();
     }
 }

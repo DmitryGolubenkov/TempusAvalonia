@@ -95,7 +95,8 @@
 							<!-- Комментарий -->
 							<DataGridTemplateColumn Header="Комментарий"
 													MinWidth="180"
-												Width="*">
+												Width="*"
+												>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding Note}"
@@ -107,11 +108,14 @@
 								</DataGridTemplateColumn.CellTemplate>
 								<DataGridTemplateColumn.CellEditingTemplate>
 									<DataTemplate>
-										<TextBox AcceptsReturn="true"
-												 Text="{Binding Note}"
-												 TextWrapping="Wrap"
-												 Height="100"
-												 HorizontalAlignment="Stretch"
+											<TextBox DockPanel.Dock="Left"
+													 MinWidth="300"
+													 AcceptsReturn="true"
+													 Text="{Binding Note}"
+													 TextWrapping="Wrap"
+													 Height="100"
+													 HorizontalAlignment="Stretch"
+													 HorizontalContentAlignment="Stretch"
 												 ></TextBox>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellEditingTemplate>

@@ -3,9 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Tempus.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Tempus.Core.Interfaces;
 using Autofac;
-using System;
 
 namespace Tempus.UI;
 
@@ -24,7 +22,7 @@ public class App : Application
 
         var builder = new ContainerBuilder();
 
-        ConfigureServices(builder);
+        Startup.ConfigureServices(builder);
 
         var services = builder.Build();
         _services = services;
@@ -49,38 +47,5 @@ public class App : Application
         mainWindow.Show();
 
         base.OnFrameworkInitializationCompleted();
-    }
-
-    private void ConfigureServices(ContainerBuilder builder)
-    {
-        builder.RegisterAssemblyModules(typeof(App).Assembly);
-
-        //Register all view models
-        builder.RegisterAssemblyTypes(typeof(App).Assembly)
-            .Where(t => t.Name.EndsWith("ViewModel"))
-            .AsSelf()
-            .AsImplementedInterfaces();
-
-        //Register db context and repositories
-        builder
-            .RegisterGeneric(typeof(Repository<>))
-            .As(typeof(IRepository<>))
-            .InstancePerLifetimeScope();
-
-
-        // Path to db should be in app folder
-        var path = $"{AppDomain.CurrentDomain.BaseDirectory}/app.db";
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlite($"Data Source={path};")
-                .Options;
-
-        builder
-            .RegisterType<AppDbContext>()
-            .WithParameter("options", options)
-            .InstancePerLifetimeScope();
-
-        builder.RegisterType<MainWindow>()
-            .SingleInstance();
-
     }
 }

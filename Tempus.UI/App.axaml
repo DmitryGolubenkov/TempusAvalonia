@@ -3,7 +3,6 @@
              x:Class="Tempus.UI.App">
 	<Application.Styles>
 		<StyleInclude Source="avares://SukiUI/Theme/Index.xaml" />
-		<StyleInclude Source="avares://SukiUI/ColorTheme/Dark.axaml" />
 	</Application.Styles>
 
 </Application>

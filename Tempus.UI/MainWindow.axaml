@@ -5,45 +5,51 @@
 		xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
 		Classes="NakedWindow"
 		xmlns:pages="clr-namespace:Tempus.UI.Pages"
+		xmlns:mati="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Tempus.UI.MainWindow"
         Title="Tempus">
 	<suki:DesktopPage Title="Tempus" ShowBottomBorder="False">
-		<suki:SideMenu WinUIStyle="True">
-			<suki:SideMenu.DataContext>
-				<suki:SideMenuModel>
-					<suki:SideMenuModel.MenuItems>
 
+		<suki:SideMenu WinUIStyle="true"
+					   >
+			<suki:SideMenu.DataContext>
+				<suki:SideMenuModel HeaderContentOverlapsToggleSidebarButton="True">
+					<suki:SideMenuModel.HeaderContent>
+						<Button
+							Click="ChangeTheme"
+							Classes="Accent"
+							HorizontalAlignment="Left"
+							Margin="0,0,0,0">
+							<mati:MaterialIcon Foreground="{DynamicResource SukiText}" Kind="LightbulbOutline" />
+						</Button>
+
+					</suki:SideMenuModel.HeaderContent>
+
+					<suki:SideMenuModel.MenuItems>
 						<suki:SideMenuItem Header="Сегодня" Icon="ClockOutline">
 							<suki:SideMenuItem.Content>
 								<pages:TodayPage />
 							</suki:SideMenuItem.Content>
 						</suki:SideMenuItem>
-						<!--<suki:SideMenuItem Header="Cегодня" Icon="Clock">
-							<suki:SideMenuItem.Content>
-								<pages:WorkTimeCounter />
-							</suki:SideMenuItem.Content>
-						</suki:SideMenuItem>-->
-						
-						
+
 						<suki:SideMenuItem Header="История" Icon="Note">
 							<suki:SideMenuItem.Content>
 								<pages:WorktimeHistoryPage />
 							</suki:SideMenuItem.Content>
 						</suki:SideMenuItem>
 
-							
+
 
 					</suki:SideMenuModel.MenuItems>
-					<!--
+
 					<suki:SideMenuModel.FooterMenuItems>
 						<suki:SideMenuItem Header="Настройки" Icon="Settings">
 							<suki:SideMenuItem.Content>
-								
 							</suki:SideMenuItem.Content>
 						</suki:SideMenuItem>
 					</suki:SideMenuModel.FooterMenuItems>
-					-->
+
 				</suki:SideMenuModel>
 			</suki:SideMenu.DataContext>
 		</suki:SideMenu>
